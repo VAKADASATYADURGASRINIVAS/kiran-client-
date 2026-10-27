@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kiran Kumar | Video & Photo Editor</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #0a0a0c; 
+            color: white; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; /* Prevent body scroll, rely on snap-container */
+        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Smooth Scroll Snapping Architecture */
+        .snap-container {
+            height: 100dvh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            /* Hide scrollbar for cleaner look */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .snap-container::-webkit-scrollbar { display: none; }
+        
+        section { 
+            scroll-snap-align: start; 
+            min-height: 100dvh; 
+            display: flex;
+            align-items: center;
+        }
+
+        /* Swiper 3D Carousel Strict Sizing */
+        .swiper { 
+            width: 100%; 
+            padding-bottom: 60px; 
+            padding-top: 40px; 
+            overflow: visible;
+        }
+        .swiper-slide {
+            width: 280px; /* Fixed width is MANDATORY for 'auto' slide viewing to work */
+            height: 420px; 
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #111;
+            position: relative;
+        }
+        
+        /* Slide Visuals */
+        .slide-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0; opacity: 0.5; transition: all 0.5s ease;
+        }
+        .swiper-slide:hover .slide-bg { opacity: 0.7; transform: scale(1.05); }
+        .slide-content {
+            position: relative; z-index: 10;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+            padding: 24px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+        }
+
+        /* Professional Pill Skills */
+        .skill-pill {
+            padding: 8px 20px;
+            border: 1px solid #38bdf8;
+            border-radius: 9999px;
+            color: #38bdf8;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+            display: inline-block;
+            cursor: default;
+        }
+        .skill-pill:hover {
+            background: #38bdf8;
+            color: #0a0a0c;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Modal Blur Effect */
+        #videoModal {
+            backdrop-filter: blur(10px);
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-[#0a0a0c]/90 backdrop-blur-md border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+            <h1 class="text-2xl font-black tracking-widest uppercase">KIRAN<span class="text-[#38bdf8]">.</span></h1>
+            <ul class="flex flex-wrap justify-center space-x-4 md:space-x-8 text-sm font-semibold tracking-wider text-gray-300">
+                <li><a href="#home" class="nav-link text-[#38bdf8] transition">Home</a></li>
+                <li><a href="#about" class="nav-link text-gray-300 hover:text-white transition">About</a></li>
+                <li><a href="#experience" class="nav-link text-gray-300 hover:text-white transition">Experience</a></li>
+                <li><a href="#reviews" class="nav-link text-gray-300 hover:text-white transition">Reviews</a></li>
+                <li><a href="#contact" class="nav-link text-gray-300 hover:text-white transition">Contact</a></li>
+            </ul>
+            <div class="hidden md:flex items-center text-sm font-bold tracking-widest text-[#38bdf8]">
+                <i class="fa-solid fa-phone mr-2"></i> +91 78160-00828
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Scroll Snapping Wrapper -->
+    <div class="snap-container">
+
+        <!-- 1. HERO SECTION -->
+        <section id="home" class="relative pt-24 md:pt-0">
+            <!-- Cinematic Background Addition -->
+            <div class="absolute inset-0 z-0">
+                <img src="title-bar.png" alt="Cinematic Background" class="w-full h-full object-cover opacity-20">
+                <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0c]/50 via-[#0a0a0c]/80 to-[#0a0a0c]"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0c] via-[#0a0a0c]/50 to-transparent"></div>
+            </div>
+            
+            <div class="w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center h-full relative z-10">
+                <div class="text-left max-w-3xl">
+                    <h2 class="text-6xl md:text-[8rem] font-black tracking-tighter leading-none mb-0">KIRAN</h2>
+                    <h2 class="text-6xl md:text-[8rem] font-black tracking-tighter leading-none mb-4 md:mb-6 text-[#38bdf8]">KUMAR</h2>
+                    <p class="text-base md:text-2xl font-semibold tracking-[0.2em] md:tracking-[0.3em] text-gray-400 mb-8 uppercase">Video & Photo Editor</p>
+                    
+                    <!-- FIX: Flex column layout prevents overlap between button and socials -->
+                    <div class="flex flex-col items-start gap-8">
+                        <a href="#experience" class="inline-block px-8 py-4 bg-[#38bdf8] text-[#0a0a0c] font-bold tracking-wider rounded-full hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(56,189,248,0.3)]">
+                            VIEW MY WORK
+                        </a>
+                        
+                        <!-- Socials now stack cleanly below the button -->
+                        <div class="flex space-x-6">
+                            <a href="https://www.instagram.com/nothing_122133/" class="text-gray-400 hover:text-[#38bdf8] transition text-2xl"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/channel/UC_kGrXEqI2E7GJSWG7iPGbQ" class="text-gray-400 hover:text-[#38bdf8] transition text-2xl"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="https://www.linkedin.com/in/kiran-kumar-12345678/" class="text-gray-400 hover:text-[#38bdf8] transition text-2xl"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT SECTION -->
+        <section id="about" class="relative bg-[#0f0f11] pt-24 md:pt-0 pb-12 md:pb-0">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 w-full z-10">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+                    
+                    <!-- Profile Picture (Compact Circle Mobile, Rounded Rect PC) -->
+                    <div class="md:col-span-4 flex justify-center items-center order-1">
+                        <img src="profile.png" 
+                             alt="Kiran Kumar" 
+                             class="w-40 h-40 md:w-full md:h-[500px] rounded-full md:rounded-3xl object-cover shadow-2xl border-2 md:border-none border-[#38bdf8]">
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="md:col-span-4 flex flex-col justify-center text-center md:text-left order-2">
+                        <h4 class="text-[#38bdf8] font-bold tracking-[0.2em] text-xs mb-2 uppercase">Who I Am</h4>
+                        <h2 class="text-4xl md:text-5xl font-black mb-6">About <span class="font-serif italic font-normal text-gray-400">Me</span></h2>
+                        
+                        <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-4">
+                            Hi, I'm <strong class="text-white">Kiran Kumar</strong>, a passionate Video & Photo Editor specializing in cinematic video editing, wedding films, YouTube shorts, and professional color grading.
+                        </p>
+                        <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-8">
+                            I transform raw footage into visually engaging stories that captivate audiences and build strong digital presences through emotion and perfect pacing.
+                        </p>
+
+                        <div class="flex gap-4 justify-center md:justify-start">
+                            <div class="bg-[#16161a] p-4 rounded-xl flex-1 text-center border border-white/5">
+                                <h3 class="text-3xl font-black text-[#38bdf8] mb-1">5+</h3>
+                                <p class="text-[10px] text-gray-500 tracking-wider font-bold">YEARS EXP.</p>
+                            </div>
+                            <div class="bg-[#16161a] p-4 rounded-xl flex-1 text-center border border-white/5">
+                                <h3 class="text-3xl font-black text-white mb-1">100+</h3>
+                                <p class="text-[10px] text-gray-500 tracking-wider font-bold">PROJECTS</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills (Pill Tags) -->
+                    <div class="md:col-span-4 bg-[#16161a] rounded-3xl p-6 md:p-8 border border-white/5 h-full flex flex-col justify-center order-3">
+                        <h3 class="text-lg font-bold mb-4 border-b border-white/10 pb-2">Software Arsenal</h3>
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <span class="skill-pill">Premiere Pro</span>
+                            <span class="skill-pill">After Effects</span>
+                            <span class="skill-pill">DaVinci Resolve</span>
+                            <span class="skill-pill">Photoshop</span>
+                            <span class="skill-pill">Lightroom</span>
+                        </div>
+
+                        <h3 class="text-lg font-bold mb-4 border-b border-white/10 pb-2">Expertise</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-pill border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500 shadow-none">Color Grading</span>
+                            <span class="skill-pill border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500 shadow-none">Motion Graphics</span>
+                            <span class="skill-pill border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500 shadow-none">Sound Design</span>
+                            <span class="skill-pill border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500 shadow-none">Cinematic Pacing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. EXPERIENCE SECTION (SWIPER VR) -->
+        <section id="experience" class="relative flex-col justify-center overflow-hidden pt-24 pb-12">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 w-full mb-4 z-10 text-center md:text-left">
+                <h4 class="text-[#38bdf8] font-bold tracking-[0.2em] text-xs mb-2 uppercase">Portfolio</h4>
+                <h2 class="text-4xl md:text-5xl font-black mb-2">Immersive <span class="font-serif italic font-normal text-gray-400">Experience</span></h2>
+                <p class="text-gray-400 text-sm max-w-lg mx-auto md:mx-0">Scroll horizontally or drag. Click a story to center it. Hover to pause.</p>
+            </div>
+
+            <div class="swiper mySwiper w-full z-10">
+                <!-- EXACTLY 18 SLIDES IN DOM TO FIX SWIPER CLUMPING BUG -->
+                <div class="swiper-wrapper">
+                    <!-- SET 1 (Slides 1-9) -->
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Social Reels">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">SHORT FORM</p>
+                            <h3 class="text-white text-2xl font-black mb-4">car</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/100IE2ge1DduCc4Ku5PcXsSonF_kiuAw8/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Hospital Promo">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">PROMO</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Hospital Promo</h3>
+                            <button onclick="openModal('https://youtube.com/shorts/6PULr3AItWo')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Wedding Films">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">CINEMATIC</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Wedding Films</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1DFG6Pf18wFFdzo7w5Z2xw44_MAc0GuDa/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Real Estate">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">ARCHITECTURE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Real Estate</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1b1Iwhcmh2madvhqg3NlzNAgMZkeMX4w2/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Documentary">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">NARRATIVE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Restaurant Promo</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1mgPvZ4Fg2mwrA1T_FA4Z78KQReplEw3M/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Music Video">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">RHYTHMIC</p>
+                            <h3 class="text-white text-2xl font-black mb-4"> Poster to Motion poster</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/105ZbXUuLRuxiJ28LmGbw_WZBJ4RFcRKh/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Commercial">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">BRAND STORY</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Clothing promo</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1WKUif6496tQi3oYDvh6oIaV9j2shUkCN/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Travel Vlog">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">LIFESTYLE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Politician</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1zFEHFaQsGkI0yVUvIQvxNC1qIbE-SgYE/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Pachadalu">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">CULINARY</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Pachadalu</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1om_ClUanNnL813Kr8Qlyi4dgCjWWDPfz/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SET 2 (Slides 10-18) EXACT DUPLICATE TO FIX INFINITE LOOP GAPS -->
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Social Reels">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">SHORT FORM</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Closeup Shot4</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1hYUtyc_b29D0p4ZxBPE8mU1JYKxb5Yoa/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Hospital Promo">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">PROMO</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Closeup Shot3</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1zy32K9zn_y6n1_MbagESMg81yTJFLeLn/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Wedding Films">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">CINEMATIC</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Wedding Films</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1kyVEI-phRD0azIYeIHN8wXU2SBL44Cqo/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Real Estate">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">ARCHITECTURE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Real Estate</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1QkSw58d9mDtfCUgJoeO8dWLIVUks4DbG/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Documentary">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">NARRATIVE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Closeup Shot1</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1YAON04WNszYuWRlEncniYyzdPaMRzcxC/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Music Video">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">RHYTHMIC</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Music Video</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1Q7L-7bexwRKmsHI0FOVXwgPaxBWOOfJC/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Commercial">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">BRAND STORY</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Shopping Reel</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1u3wf_06dGevtthlpZA--0LLYQ9iNdf8K/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Travel Vlog">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">LIFESTYLE</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Closeup Shots</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1YAON04WNszYuWRlEncniYyzdPaMRzcxC/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="slide-bg" alt="Pachadalu">
+                        <div class="slide-content">
+                            <p class="text-[#38bdf8] text-[10px] font-bold tracking-widest mb-1 uppercase">CULINARY</p>
+                            <h3 class="text-white text-2xl font-black mb-4">Pachadalu</h3>
+                            <button onclick="openModal('https://drive.google.com/file/d/1W46L4xNvrP4nTyQuqwC4I2n2SVrwDIRF/view?usp=sharing')" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-3 rounded-lg hover:bg-white transition flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-play mr-2"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. REVIEWS SECTION -->
+        <section id="reviews" class="relative bg-[#0f0f11] pt-24 md:pt-0 pb-12 md:pb-0">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 w-full z-10">
+                <div class="text-center mb-12">
+                    <h4 class="text-[#38bdf8] font-bold tracking-[0.2em] text-xs mb-2 uppercase">Testimonials</h4>
+                    <h2 class="text-4xl md:text-5xl font-black">Client <span class="font-serif italic font-normal text-gray-400">Feedback</span></h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-[#16161a] p-8 rounded-3xl border border-white/5 relative hover:border-[#38bdf8]/30 transition-colors">
+                        <div class="text-[#38bdf8] text-5xl font-serif absolute top-2 left-6 opacity-30">"</div>
+                        <p class="text-gray-300 italic mb-8 relative z-10 text-sm leading-relaxed">Kiran completely transformed our wedding footage. The color grading was phenomenal and the cinematic pacing brought tears to our eyes.</p>
+                        <div class="flex items-center gap-4 border-t border-white/10 pt-4 mt-auto">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#38bdf8] to-blue-600 flex items-center justify-center font-bold text-sm text-black">S&R</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Sarah & Ryan</h4>
+                                <p class="text-xs text-gray-500">Wedding Highlights</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-[#16161a] p-8 rounded-3xl border border-white/5 relative hover:border-[#38bdf8]/30 transition-colors">
+                        <div class="text-[#38bdf8] text-5xl font-serif absolute top-2 left-6 opacity-30">"</div>
+                        <p class="text-gray-300 italic mb-8 relative z-10 text-sm leading-relaxed">We hired him for a corporate real estate tour and the results were stunning. Fast turnaround, incredibly professional, butter smooth transitions.</p>
+                        <div class="flex items-center gap-4 border-t border-white/10 pt-4 mt-auto">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#38bdf8] to-blue-600 flex items-center justify-center font-bold text-sm text-black">EG</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Elevate Group</h4>
+                                <p class="text-xs text-gray-500">Commercial Real Estate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-[#16161a] p-8 rounded-3xl border border-white/5 relative hover:border-[#38bdf8]/30 transition-colors">
+                        <div class="text-[#38bdf8] text-5xl font-serif absolute top-2 left-6 opacity-30">"</div>
+                        <p class="text-gray-300 italic mb-8 relative z-10 text-sm leading-relaxed">My YouTube channel growth skyrocketed after Kiran took over the editing. He perfectly understands pacing for audience retention and shorts.</p>
+                        <div class="flex items-center gap-4 border-t border-white/10 pt-4 mt-auto">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#38bdf8] to-blue-600 flex items-center justify-center font-bold text-sm text-black">TC</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Tech Central</h4>
+                                <p class="text-xs text-gray-500">YouTube Creator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CONTACT SECTION -->
+        <section id="contact" class="relative bg-[#0a0a0c] pt-24 md:pt-0 pb-12 md:pb-0">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10">
+                <div>
+                    <h4 class="text-[#38bdf8] font-bold tracking-[0.2em] text-xs mb-2 uppercase">Let's Connect</h4>
+                    <h2 class="text-4xl md:text-6xl font-black mb-6">Start a <br><span class="font-serif italic font-normal text-gray-400">Project</span></h2>
+                    <p class="text-gray-400 mb-8 max-w-md text-sm leading-relaxed">Ready to bring your vision to life? Drop me a message below with details about your footage and what you're looking for.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center text-gray-300 text-sm">
+                            <div class="w-10 h-10 rounded-full bg-[#16161a] border border-white/10 flex items-center justify-center mr-4">
+                                <i class="fa-solid fa-envelope text-[#38bdf8]"></i>
+                            </div>
+                            dasarikirankumar11@gmail.com
+                        </div>
+                        <div class="flex items-center text-gray-300 text-sm">
+                            <div class="w-10 h-10 rounded-full bg-[#16161a] border border-white/10 flex items-center justify-center mr-4">
+                                <i class="fa-solid fa-location-dot text-[#38bdf8]"></i>
+                            </div>
+                            Hyderabad, Telangana, India
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#16161a] p-8 rounded-3xl border border-white/5 shadow-2xl">
+                    <form id="contactForm" action="https://formspree.io/f/mnppjrzl" method="POST" class="flex flex-col gap-5">
+                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#38bdf8] transition text-sm">
+                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#38bdf8] transition text-sm">
+                        <textarea name="message" rows="4" placeholder="Tell me about your project..." required class="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#38bdf8] transition text-sm resize-none"></textarea>
+                        
+                        <button type="submit" id="submitBtn" class="w-full bg-[#38bdf8] text-[#0a0a0c] font-bold py-4 rounded-xl hover:bg-white transition mt-2 flex justify-center items-center shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                            SEND MESSAGE
+                        </button>
+                        <p id="formStatus" class="text-center text-sm mt-2 hidden"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cinematic Vertical Shorts Modal (Strictly 9:16 Aspect Ratio) -->
+    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <!-- Click background to close -->
+        <div class="absolute inset-0 cursor-pointer" onclick="closeModal()"></div>
+        
+        <!-- VERTICAL CONTAINER -->
+        <div class="relative w-full max-w-[350px] aspect-[9/16] bg-[#0a0a0c] rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)] border border-white/10 z-10 flex flex-col justify-center items-center">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/60 hover:bg-[#38bdf8] hover:text-black text-white rounded-full flex items-center justify-center transition backdrop-blur-md">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Video content gets injected here -->
+            <div id="iframeContainer" class="w-full h-full flex flex-col items-center justify-center"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        /* 
+         * 1. SWIPER INITIALIZATION (FIXED 3D LOOP)
+         */
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            speed: 800,
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            coverflowEffect: {
+                rotate: 25,
+                stretch: 0,
+                depth: 300,
+                modifier: 1,
+                slideShadows: true, 
+            },
+            slideToClickedSlide: true, 
+        });
+
+        /* 
+         * 2. YOUTUBE URL PARSER & MODAL LOGIC
+         */
+        const modal = document.getElementById('videoModal');
+        const iframeContainer = document.getElementById('iframeContainer');
+
+        function openModal(rawUrl) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            if (!rawUrl || rawUrl.trim() === "") {
+                iframeContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center text-center p-6 w-full h-full">
+                        <div class="w-16 h-16 rounded-full bg-gray-900 border border-gray-700 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-video-slash text-2xl text-gray-500"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-lg mb-2">Video not added yet</h3>
+                        <p class="text-gray-500 text-xs">Update the onclick="openModal('YOUR_LINK')" attribute in the HTML.</p>
+                    </div>`;
+                return;
+            }
+
+            let embedUrl = "";
+            const cleanUrl = rawUrl.split('?')[0]; 
+            
+            if (rawUrl.includes("drive.google.com")) {
+                const driveMatch = rawUrl.match(/\/d\/(.+?)\//);
+                if (driveMatch && driveMatch[1]) {
+                    embedUrl = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+                }
+            } 
+            else if (cleanUrl.includes("shorts/") || cleanUrl.includes("youtu.be/") || rawUrl.includes("watch?v=")) {
+                let videoId = "";
+                if (cleanUrl.includes("shorts/")) videoId = cleanUrl.split("shorts/")[1];
+                else if (cleanUrl.includes("youtu.be/")) videoId = cleanUrl.split("youtu.be/")[1];
+                else if (rawUrl.includes("watch?v=")) videoId = rawUrl.split("watch?v=")[1].split("&")[0];
+                
+                if(videoId && videoId.length >= 11) {
+                    embedUrl = `https://www.youtube.com/embed/${videoId.substring(0, 11)}?autoplay=1&mute=0&rel=0&modestbranding=1`;
+                }
+            }
+            
+            if(embedUrl) {
+                iframeContainer.innerHTML = `<iframe class="w-full h-full object-cover" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                 iframeContainer.innerHTML = `<div class="text-red-400 font-bold text-sm text-center px-4">Invalid Link Format.<br><span class="text-xs text-gray-400 font-normal">Please use a standard YouTube or Google Drive URL.</span></div>`;
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            iframeContainer.innerHTML = ''; // Stops audio playing in background
+        }
+
+        /* 
+         * 3. FORMSPREE AJAX SUBMISSION (NO PAGE RELOAD)
+         */
+        const form = document.getElementById("contactForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const formStatus = document.getElementById("formStatus");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault(); 
+            
+            if(form.action.includes("YOUR_FORMSPREE_LINK_HERE")) {
+                formStatus.innerHTML = "<i class='fa-solid fa-triangle-exclamation mr-1'></i> Setup Required: Replace 'YOUR_FORMSPREE_LINK_HERE' in HTML.";
+                formStatus.className = "text-center text-xs mt-4 text-orange-400 block font-bold";
+                return;
+            }
+
+            const data = new FormData(event.target);
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> SENDING...';
+            submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+            
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    formStatus.innerHTML = "<i class='fa-solid fa-circle-check mr-1'></i> Message Sent Successfully!";
+                    formStatus.className = "text-center text-xs mt-4 text-green-400 block font-bold";
+                    form.reset();
+                } else {
+                    formStatus.innerHTML = "Oops! There was a problem submitting your form.";
+                    formStatus.className = "text-center text-xs mt-4 text-red-400 block";
+                }
+            } catch (error) {
+                formStatus.innerHTML = "Network error. Please try again.";
+                formStatus.className = "text-center text-xs mt-4 text-red-400 block";
+            }
+            
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+        });
+
+        /* 
+         * 4. SCROLL SPY FOR NAVBAR HIGHLIGHTING
+         */
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: document.querySelector('.snap-container'),
+            threshold: 0.5 // Triggers when 50% of section is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    
+                    navLinks.forEach(link => {
+                        // Reset all links back to gray
+                        link.classList.remove('text-[#38bdf8]');
+                        link.classList.add('text-gray-300', 'hover:text-white');
+                        
+                        // Highlight the active matching link
+                        if (link.getAttribute('href') === '#' + currentId) {
+                            link.classList.remove('text-gray-300', 'hover:text-white');
+                            link.classList.add('text-[#38bdf8]');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
